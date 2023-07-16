@@ -1,0 +1,110 @@
+.topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+  }
+  
+  .topbar-left {
+    display: flex;
+    align-items: center;
+  }
+  
+  .welcome-message {
+    font-size: 14px;
+    font-weight: bold;
+    color: #168f16;
+    margin-top: -7px;
+    margin-right: -7px;
+    margin-bottom: 15px;
+  }
+  
+.topbar-username {
+    text-align: right;
+    margin-top: 10px;
+    margin-left: -30px;
+    font-size: 20px;
+    color: #333;
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 40px;   }
+  
+  .topbar-icon {
+    font-size: 20px;
+    color: #168f16;
+    margin-right: 10px;
+  }
+  
+.notification-icon {
+    margin-right: 10px;
+  }
+  .profile-picture {
+    width: 30px;
+    height: 30px;
+    /* order: -1; */
+        border-radius: 50%;
+        margin-right: 5px;
+
+  }
+  .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #168f16;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1;
+  }
+  
+  .bottom-bar-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ffffff;
+    font-size: 14px;
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+  
+  .floating-button {
+    position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: #168f16;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 3;
+  }
+  
+  .floating-button:hover {
+    background-color: #e6e6e6;
+  }
+  
+  .floating-button i {
+    margin-bottom: 3px;
+  }
+  
