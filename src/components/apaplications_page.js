@@ -7,7 +7,7 @@ import Footer from './Footer';
 import Navbar from './Navbar';
 
 const ApplicationPage = () => {
-    const [activeTab, setActiveTab] = useState('received');
+    const [activeTab, setActiveTab] = useState('applied');
 
     const handleTabClick = (tab) => {
       setActiveTab(tab);

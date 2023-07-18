@@ -1,19 +1,27 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import BookmarkPage from './components/Bookmark';
+import ApplicationPage from './components/apaplications_page';
+import HomePage from './components/home_page';
 import LoginPage from './components/login_page';
 import SignupPage from './components/signup_page';
-import HomePage from './components/home_page';
-import ApplicationPage from './components/apaplications_page';
-import { Route, Routes } from 'react-router-dom';
+import { RequireAuth } from './utils/RequireAuth';
+import { AuthProvider } from './utils/authContext';
 
 function App() {
   return (
     <div>
-<Routes>
+        <AuthProvider>
+        <Routes>
     <Route path='/' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
-          <Route path='/home' element={<HomePage />} />
-          <Route path='/application' element={<ApplicationPage />} />
+          <Route path='/home' element={<RequireAuth><HomePage /></RequireAuth>} />
+          <Route path='/application' element={<RequireAuth><ApplicationPage /></RequireAuth>} />
+          <Route path='/bookmark' element={<RequireAuth><BookmarkPage /></RequireAuth>} />
     </Routes>
+
+        </AuthProvider>
+
     </div>
      
   );
