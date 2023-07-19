@@ -36,14 +36,11 @@ const LoginPage = () => {
       auth.setEmail(user.email);
 
       const response = await axios.post("/auth/login", user);
-      console.log(response.status === 200);
       if (response.status === 200) {
-        navigate("/home");
-        console.log("IN HOME?");
         message.success(response.data.message);
-        localStorage.setItem("token", response.data.data);
+        localStorage.setItem("token", response.data.token);
+        navigate("/home");
       } else {
-        // console.log(response.data.message)
         message.error(response.data.message);
       }
     }

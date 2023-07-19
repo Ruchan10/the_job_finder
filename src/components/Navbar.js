@@ -6,7 +6,6 @@ import { BsBookmark } from "react-icons/bs";
 import { IoBriefcaseOutline, IoDocumentsOutline } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom";
 import pp from "../assets/images/pp.webp";
-
 import "../styles/Navbar.css";
 import "../tailwind.css";
 

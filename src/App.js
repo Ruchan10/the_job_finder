@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { Route, Routes } from "react-router-dom";
 import BookmarkPage from "./components/Bookmark";
 import ApplicationPage from "./components/apaplications_page";
@@ -8,8 +8,23 @@ import LoginPage from "./components/login_page";
 import SignupPage from "./components/signup_page";
 import { RequireAuth } from "./utils/RequireAuth";
 import { AuthProvider } from "./utils/authContext";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function App() {
+    
+    const [authenticated, setAuthenticated] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setAuthenticated(!!token);
+    setLoading(false);
+  }, []);
+if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <AuthProvider>
@@ -18,34 +33,42 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route
             path="/home"
-            element={
+            element={authenticated ? (
+                <HomePage />
+              ) : (
               <RequireAuth>
                 <HomePage />
-              </RequireAuth>
+              </RequireAuth>)
             }
           />
           <Route
             path="/application"
-            element={
+            element={authenticated ? (
+                <ApplicationPage />
+              ) : (
               <RequireAuth>
                 <ApplicationPage />
-              </RequireAuth>
+              </RequireAuth>)
             }
           />
           <Route
             path="/bookmark"
-            element={
+            element={authenticated ? (
+                <BookmarkPage />
+              ) : (
               <RequireAuth>
                 <BookmarkPage />
-              </RequireAuth>
+              </RequireAuth>)
             }
           />
           <Route
             path="/addjob"
-            element={
+            element={authenticated ? (
+                <AddJob />
+              ) : (
               <RequireAuth>
                 <AddJob />
-              </RequireAuth>
+              </RequireAuth>)
             }
           />
         </Routes>

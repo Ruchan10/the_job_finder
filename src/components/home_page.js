@@ -6,7 +6,7 @@ import { BsFilter, BsSearch } from "react-icons/bs";
 import "../styles/home_page.css";
 import "../tailwind.css";
 import Footer from "./Footer";
-import GetAllJobs from "./GetAllJobs";
+import {GetAllJobs, GetBookmarked} from "./GetAllJobs";
 import Navbar from "./Navbar";
 
 const HomePage = () => {
@@ -21,8 +21,6 @@ const HomePage = () => {
     try {
       const response = await axios.get("/jobs");
       if (response.data.success) {
-        console.log("response.data.data");
-        console.log(response.data.data);
         setJobs(response.data.data);
       } else {
         console.error(response.data.message);
@@ -30,7 +28,6 @@ const HomePage = () => {
     } catch (error) {
       console.error(error);
     }
-    console.log(jobs);
   };
 
   fetchJobs();

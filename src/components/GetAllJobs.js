@@ -4,7 +4,7 @@ import "../styles/home_page.css";
 import "../tailwind.css";
 import getCard from "./card";
 
-const GetAllJobs = ({ jobsData }) => {
+export const GetAllJobs = ({ jobsData }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
       {jobsData.map((job) => (
@@ -21,10 +21,12 @@ const GetAllJobs = ({ jobsData }) => {
     </div>
   );
 };
-const getBookmarked=({bookmarkData})=>{
-    return (
+
+
+export const GetBookmarked = ({ bookmarkData }) => {
+  return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
-        {bookmarkData.map((job) => (
+      {bookmarkData.map((job) => (
         <div>
           {getCard({
             logo: "path_to_logo_image",
@@ -35,7 +37,7 @@ const getBookmarked=({bookmarkData})=>{
           })}
         </div>
       ))}
-</div>
-    )
-}
-export default {GetAllJobs, getBookmarked};
+    </div>
+  );
+};
+
