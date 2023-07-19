@@ -97,3 +97,27 @@
     text-decoration: underline;
   }
   
+  .password-input-container {
+    position: relative;
+    width: 100%;
+
+  }
+  
+  .password-toggle-button {
+    position: absolute;
+    top: 44%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  /* Adjust the eye icon size and other styles as needed */
+  .password-toggle-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  
+  
+  
+  

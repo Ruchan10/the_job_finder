@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import { BsBookmark } from 'react-icons/bs';
 import "../styles/card.css";
 
-const getCard = ({ logo, companyName, jobName, location, time }) => {
+const  getCard = ({ logo, companyName, jobName, location, time }) => {
   return (
     <div class="spacer">
  <Card className="custom-card" >
@@ -34,5 +34,6 @@ const getCard = ({ logo, companyName, jobName, location, time }) => {
     </div>
   );
 };
+
 
 export default getCard;
