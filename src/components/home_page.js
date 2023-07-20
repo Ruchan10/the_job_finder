@@ -1,7 +1,7 @@
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import axios from "axios";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { BsFilter, BsSearch } from "react-icons/bs";
 import "../styles/home_page.css";
 import "../tailwind.css";
@@ -31,7 +31,9 @@ const HomePage = () => {
     }
   };
 
-  fetchJobs();
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
     <div>
@@ -82,7 +84,7 @@ const HomePage = () => {
           )}
         </div>
 
-        <GetAllJobs jobsData={jobs} />
+        <GetAllJobs jobsData={jobs} getJobs={fetchJobs} />
       </div>
       <Footer />
     </div>

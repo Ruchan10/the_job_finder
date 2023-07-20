@@ -12,6 +12,7 @@ import "../tailwind.css";
 const Navbar = () => {
   const location = useLocation();
   const [activeButton, setActiveButton] = useState(location.pathname);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleButtonClick = (path) => {
     setActiveButton(path);

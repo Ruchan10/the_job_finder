@@ -1,19 +1,17 @@
-import React,{useState, useEffect} from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import AddJob from "./components/AddJob";
 import BookmarkPage from "./components/Bookmark";
 import ApplicationPage from "./components/apaplications_page";
-import AddJob from "./components/AddJob";
 import HomePage from "./components/home_page";
-import LoginPage from "./components/login_page";
+import { default as LoginPage } from "./components/login_page";
 import SignupPage from "./components/signup_page";
+import { default as NavBar } from "./components/test";
 import { RequireAuth } from "./utils/RequireAuth";
 import { AuthProvider } from "./utils/authContext";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function App() {
-    
-    const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
@@ -22,53 +20,62 @@ function App() {
     setAuthenticated(!!token);
     setLoading(false);
   }, []);
-if (loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
   return (
     <div>
       <AuthProvider>
         <Routes>
+          <Route path="/test" element={<NavBar />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route
             path="/home"
-            element={authenticated ? (
+            element={
+              authenticated ? (
                 <HomePage />
               ) : (
-              <RequireAuth>
-                <HomePage />
-              </RequireAuth>)
+                <RequireAuth>
+                  <HomePage />
+                </RequireAuth>
+              )
             }
           />
           <Route
             path="/application"
-            element={authenticated ? (
+            element={
+              authenticated ? (
                 <ApplicationPage />
               ) : (
-              <RequireAuth>
-                <ApplicationPage />
-              </RequireAuth>)
+                <RequireAuth>
+                  <ApplicationPage />
+                </RequireAuth>
+              )
             }
           />
           <Route
             path="/bookmark"
-            element={authenticated ? (
+            element={
+              authenticated ? (
                 <BookmarkPage />
               ) : (
-              <RequireAuth>
-                <BookmarkPage />
-              </RequireAuth>)
+                <RequireAuth>
+                  <BookmarkPage />
+                </RequireAuth>
+              )
             }
           />
           <Route
             path="/addjob"
-            element={authenticated ? (
+            element={
+              authenticated ? (
                 <AddJob />
               ) : (
-              <RequireAuth>
-                <AddJob />
-              </RequireAuth>)
+                <RequireAuth>
+                  <AddJob />
+                </RequireAuth>
+              )
             }
           />
         </Routes>

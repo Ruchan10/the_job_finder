@@ -1,5 +1,5 @@
 import axios from "axios";
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import Footer from "./Footer";
 import { GetBookmarked } from "./GetAllJobs";
 import Navbar from "./Navbar";
@@ -34,14 +34,14 @@ export default function BookmarkPage() {
   };
 
   // Use useEffect to fetch data when the component mounts
-  //   useEffect(() => {
-  getBookmarks();
-  //   }, []);
+  useEffect(() => {
+    getBookmarks();
+  }, []);
 
   return (
     <div>
       <Navbar />
-      <GetBookmarked bookmarkData={bookmarks} />
+      <GetBookmarked bookmarkData={bookmarks} getBookmarks={getBookmarks}/>
       <Footer />
     </div>
   );

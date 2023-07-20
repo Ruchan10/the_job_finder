@@ -19,7 +19,10 @@ const getCard = ({
         <div className="card-header">
           <img src={logo} alt="Logo" className="logo" />
           <div class="text-xl font">{companyName}</div>
-          <span className="bookmark-icon" onClick={bookmarked ? onUnbookmark : addBookmark}>
+          <span
+            className="bookmark-icon"
+            onClick={bookmarked ? onUnbookmark : addBookmark}
+          >
             {bookmarked ? <BsBookmarkFill /> : <BsBookmark />}
           </span>
         </div>
