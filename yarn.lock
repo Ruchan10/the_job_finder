@@ -1404,6 +1404,11 @@
   dependencies:
     client-only "^0.0.1"
 
+"@heroicons/react@^2.0.18":
+  version "2.0.18"
+  resolved "https://registry.npmjs.org/@heroicons/react/-/react-2.0.18.tgz"
+  integrity sha512-7TyMjRrZZMBPa+/5Y8lN0iyvUU/01PeMGX2+RE7cQWpEUIcb4QotzUObFkJDejj/HUH4qjP/eQ0gzzKs2f+6Yw==
+
 "@humanwhocodes/config-array@^0.11.10":
   version "0.11.10"
   resolved "https://registry.npmjs.org/@humanwhocodes/config-array/-/config-array-0.11.10.tgz"
@@ -2033,6 +2038,13 @@
     "@svgr/plugin-jsx" "^5.5.0"
     "@svgr/plugin-svgo" "^5.5.0"
     loader-utils "^2.0.0"
+
+"@tailwindcss/forms@^0.5.4":
+  version "0.5.4"
+  resolved "https://registry.npmjs.org/@tailwindcss/forms/-/forms-0.5.4.tgz"
+  integrity sha512-YAm12D3R7/9Mh4jFbYSMnsd6jG++8KxogWgqs7hbdo/86aWjjlIEvL7+QYdVELmAI0InXTpZqFIg5e7aDVWI2Q==
+  dependencies:
+    mini-svg-data-uri "^1.2.3"
 
 "@testing-library/dom@^8.5.0":
   version "8.20.1"
@@ -6850,6 +6862,11 @@ mini-css-extract-plugin@^2.4.5:
   dependencies:
     schema-utils "^4.0.0"
 
+mini-svg-data-uri@^1.2.3:
+  version "1.4.4"
+  resolved "https://registry.npmjs.org/mini-svg-data-uri/-/mini-svg-data-uri-1.4.4.tgz"
+  integrity sha512-r9deDe9p5FJUPZAk3A59wGH7Ii9YrjjWw0jmw/liSbHl2CHiyXj6FcDXDu2K3TjVAXqiJdaw3xxwlZZr9E6nHg==
+
 minimalistic-assert@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/minimalistic-assert/-/minimalistic-assert-1.0.1.tgz"
@@ -9485,7 +9502,7 @@ tailwindcss-flip@^1.0.0:
   dependencies:
     lodash.flatmap "^4.5.0"
 
-tailwindcss@^3, tailwindcss@^3.0.2, tailwindcss@^3.3.3:
+tailwindcss@^3, tailwindcss@^3.0.2, tailwindcss@^3.3.3, "tailwindcss@>=3.0.0 || >= 3.0.0-alpha.1":
   version "3.3.3"
   resolved "https://registry.npmjs.org/tailwindcss/-/tailwindcss-3.3.3.tgz"
   integrity sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==

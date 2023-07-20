@@ -1,8 +1,8 @@
 import axios from "axios";
-import {React, useState, useEffect } from "react";
+import { React, useState } from "react";
 import Footer from "./Footer";
+import { GetBookmarked } from "./GetAllJobs";
 import Navbar from "./Navbar";
-import {GetAllJobs, GetBookmarked} from "./GetAllJobs";
 
 export default function BookmarkPage() {
   const [bookmarks, setBookmarks] = useState([]);
@@ -23,7 +23,6 @@ export default function BookmarkPage() {
       };
 
       const response = await axios.get("/jobs/getBookmarked", { headers });
-
       if (response.data.success) {
         setBookmarks(response.data.data);
       } else {
@@ -35,14 +34,14 @@ export default function BookmarkPage() {
   };
 
   // Use useEffect to fetch data when the component mounts
-//   useEffect(() => {
-    getBookmarks();
-//   }, []);
+  //   useEffect(() => {
+  getBookmarks();
+  //   }, []);
 
   return (
     <div>
       <Navbar />
-      <GetBookmarked bookmarkData={bookmarks}/>
+      <GetBookmarked bookmarkData={bookmarks} />
       <Footer />
     </div>
   );
