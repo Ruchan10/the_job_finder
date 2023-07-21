@@ -12,6 +12,9 @@ const getCard = ({
   onUnbookmark,
   addBookmark,
   bookmarked,
+  applied,
+  apply,
+  withdraw,
 }) => {
   return (
     <div class="spacer">
@@ -41,7 +44,9 @@ const getCard = ({
             <div class="text-sm font-bold">{time}</div>
           </div>
         </div>
-        <button class="btn btn-sm card-footer">Apply</button>
+        <button 
+        onClick={applied ? withdraw : apply}
+        class="btn btn-sm card-footer">{applied ? "Withdraw" : "Apply"}</button>
       </Card>
     </div>
   );

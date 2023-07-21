@@ -9,13 +9,20 @@ import "../tailwind.css";
 import getCard from "./card";
 
 const checkUserBookmark = (job, userId) => {
-  console.log("IN CHECK USER BOOKMARK");
-  console.log(job.bookmarkedBy);
   if (!!job.bookmarkedBy && job.bookmarkedBy.includes(userId)) {
     return true;
   }
   return false;
 };
+const checkAppliedJob = (job, userId) => {
+  console.log("INSIDE APPLY JOB");
+  console.log(userId);
+  if (!!job.appliedBy && job.appliedBy.includes(userId)) {
+    return true;
+  }
+  return false;
+};
+
 const handleUnbookmark = async (jobId) => {
   console.log("IN GETBOOKMARKED");
   try {
@@ -43,34 +50,82 @@ const handleUnbookmark = async (jobId) => {
     console.error(error);
   }
 };
-export const GetAllJobs = ({ jobsData, getJobs }) => {
-  // Function to check if the user ID exists in the job.bookmarkedBy array
 
-  const handleAddBookmark = async (jobId) => {
-    try {
-      const accessToken = localStorage.getItem("token");
-      if (!accessToken) {
-        message.error("Not Authorized");
-        return;
-      }
-      const headers = {
-        Authorization: `${accessToken}`,
-      };
-      const response = await axios.post(`/jobs/addBookmark/${jobId}`, null, {
-        headers,
-      });
-      console.log(`/jobs/addBookmark/${jobId}`);
-
-      console.log(response);
-      if (response.status === 200) {
-        message.success(response.data.message);
-      } else {
-        message.error(response.data.message);
-      }
-    } catch (error) {
-      console.error(error);
+const handleApplyJob = async (jobId) => {
+  try {
+    const accessToken = localStorage.getItem("token");
+    if (!accessToken) {
+      message.error("Not Authorized");
+      return;
     }
-  };
+    const headers = {
+      Authorization: `${accessToken}`,
+    };
+    const response = await axios.post(`/jobs/applyJob/${jobId}`, null, {
+      headers,
+    });
+
+    if (response.status === 200) {
+      message.success(response.data.message);
+    } else {
+      message.error(response.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+const handleWithdrawJob = async (jobId) => {
+  try {
+    const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+    var userId = jwtDecode(localStorage.getItem("token")).userId;
+    console.log(userId);
+    if (!accessToken) {
+      // If the access token is not available, handle the authentication error
+      console.error("User not authenticated.");
+      return;
+    }
+    const headers = {
+      Authorization: `${accessToken}`,
+    };
+    const response = await axios.post(`/jobs/withdraw/${jobId}`, null, {
+      headers,
+    });
+    console.log(response);
+    if (response.status === 200) {
+      message.success(response.data.message);
+    } else {
+      message.error(response.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+const handleAddBookmark = async (jobId) => {
+  try {
+    const accessToken = localStorage.getItem("token");
+    if (!accessToken) {
+      message.error("Not Authorized");
+      return;
+    }
+    const headers = {
+      Authorization: `${accessToken}`,
+    };
+    const response = await axios.post(`/jobs/addBookmark/${jobId}`, null, {
+      headers,
+    });
+    console.log(`/jobs/addBookmark/${jobId}`);
+
+    console.log(response);
+    if (response.status === 200) {
+      message.success(response.data.message);
+    } else {
+      message.error(response.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const GetAllJobs = ({ jobsData, getJobs }) => {
   useEffect(() => {
     getJobs();
   }, [getJobs]);
@@ -85,12 +140,18 @@ export const GetAllJobs = ({ jobsData, getJobs }) => {
             jobName: job.title,
             location: job.location,
             time: job.desc,
+            applied: checkAppliedJob(
+              job,
+              jwtDecode(localStorage.getItem("token")).userId
+            ),
             bookmarked: checkUserBookmark(
               job,
               jwtDecode(localStorage.getItem("token")).userId
             ),
             onUnbookmark: () => handleUnbookmark(job._id),
             addBookmark: () => handleAddBookmark(job._id),
+            apply: () => handleApplyJob(job._id),
+            withdraw: () => handleWithdrawJob(job._id),
           })}
         </div>
       ))}
@@ -113,11 +174,79 @@ export const GetBookmarked = ({ bookmarkData, getBookmarks }) => {
             jobName: job.title,
             location: job.location,
             time: job.desc,
+            applied: checkAppliedJob(
+              job,
+              jwtDecode(localStorage.getItem("token")).userId
+            ),
             bookmarked: checkUserBookmark(
               job,
               jwtDecode(localStorage.getItem("token")).userId
             ),
             onUnbookmark: () => handleUnbookmark(job._id),
+            apply: () => handleApplyJob(job._id),
+            withdraw: () => handleWithdrawJob(job._id),
+          })}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export const GetAppliedJobs = ({ appliedJobsData, getAppliedJobs }) => {
+  useEffect(() => {
+    getAppliedJobs();
+  }, [getAppliedJobs]);
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
+      {appliedJobsData.map((job) => (
+        <div>
+          {getCard({
+            logo: "path_to_logo_image",
+            companyName: job.company,
+            jobName: job.title,
+            location: job.location,
+            time: job.desc,
+            addBookmark: () => handleAddBookmark(job._id),
+            bookmarked: checkUserBookmark(
+              job,
+              jwtDecode(localStorage.getItem("token")).userId
+            ),
+            applied: checkAppliedJob(
+              job,
+              jwtDecode(localStorage.getItem("token")).userId
+            ),
+            onUnbookmark: () => handleUnbookmark(job._id),
+            withdraw: () => handleWithdrawJob(job._id),
+          })}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
+  useEffect(() => {
+    getCreatedJobs();
+  }, [getCreatedJobs]);
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
+      {createdJobsData.map((job) => (
+        <div>
+          {getCard({
+            logo: "path_to_logo_image",
+            companyName: job.company,
+            jobName: job.title,
+            location: job.location,
+            time: job.desc,
+            addBookmark: () => handleAddBookmark(job._id),
+            bookmarked: checkUserBookmark(
+              job,
+              jwtDecode(localStorage.getItem("token")).userId
+            ),
+            onUnbookmark: () => handleUnbookmark(job._id),
+            withdraw: () => handleWithdrawJob(job._id),
           })}
         </div>
       ))}
