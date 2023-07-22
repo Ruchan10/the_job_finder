@@ -6,6 +6,7 @@ import ApplicationPage from "./components/apaplications_page";
 import HomePage from "./components/home_page";
 import { default as LoginPage } from "./components/login_page";
 import SignupPage from "./components/signup_page";
+import EditProfile from "./components/Edit_profile";
 import { default as NavBar } from "./components/test";
 import { RequireAuth } from "./utils/RequireAuth";
 import { AuthProvider } from "./utils/authContext";
@@ -78,7 +79,20 @@ function App() {
               )
             }
           />
+          <Route
+            path="/editProfile"
+            element={
+              authenticated ? (
+                <EditProfile />
+              ) : (
+                <RequireAuth>
+                  <EditProfile />
+                </RequireAuth>
+              )
+            }
+          />
         </Routes>
+        
       </AuthProvider>
     </div>
   );

@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import React, { useEffect } from "react";
 import "../styles/home_page.css";
 import "../tailwind.css";
-import getCard from "./card";
+import { getCard, getCreatedCard } from "./card";
 
 const checkUserBookmark = (job, userId) => {
   if (!!job.bookmarkedBy && job.bookmarkedBy.includes(userId)) {
@@ -41,6 +41,32 @@ const handleUnbookmark = async (jobId) => {
       headers,
     });
     console.log(response);
+    if (response.status === 200) {
+      message.success(response.data.message);
+    } else {
+      message.error(response.data.message);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const handleDeleteJob = async (jobId) => {
+  try {
+    const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+    var userId = jwtDecode(localStorage.getItem("token")).userId;
+    console.log(userId);
+    if (!accessToken) {
+      // If the access token is not available, handle the authentication error
+      console.error("User not authenticated.");
+      return;
+    }
+    const headers = {
+      Authorization: `${accessToken}`,
+    };
+    const response = await axios.delete(`/jobs/${jobId}`, {
+      headers,
+    });
     if (response.status === 200) {
       message.success(response.data.message);
     } else {
@@ -234,19 +260,13 @@ export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
       {createdJobsData.map((job) => (
         <div>
-          {getCard({
+          {getCreatedCard({
             logo: "path_to_logo_image",
             companyName: job.company,
             jobName: job.title,
             location: job.location,
             time: job.desc,
-            addBookmark: () => handleAddBookmark(job._id),
-            bookmarked: checkUserBookmark(
-              job,
-              jwtDecode(localStorage.getItem("token")).userId
-            ),
-            onUnbookmark: () => handleUnbookmark(job._id),
-            withdraw: () => handleWithdrawJob(job._id),
+            deleteJob: () => handleDeleteJob(job._id),
           })}
         </div>
       ))}

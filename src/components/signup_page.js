@@ -41,7 +41,7 @@ const SignupPage = () => {
       //   dispatch(ShowLoading());
       const response = await axios.post("/auth/signup", user);
       //   dispatch(ShowLoading())
-      if (response.data.success) {
+      if (response.status === 200) {
         message.success(response.data.message);
       } else {
         message.error(response.data.message);

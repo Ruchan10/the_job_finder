@@ -1,8 +1,10 @@
 import { message } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import jwtDecode from "jwt-decode";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
+import { GetCreatedJobs } from "./GetAllJobs";
 import Navbar from "./Navbar";
 
 export default function AddJob() {
@@ -12,6 +14,9 @@ export default function AddJob() {
   const [salary, setSalary] = useState("");
   const [location, setLocation] = useState("");
   const [jobTime, setJobTime] = useState("Job Time");
+  const [createdJobs, setCreatedJobs] = useState([]);
+  const [logo, setLogo] = useState(null);
+  const [logoUrl, setLogoUrl] = useState("");
 
   const handleJobTime = (option) => {
     setJobTime(option);
@@ -34,18 +39,21 @@ export default function AddJob() {
       message.error("Please select job time");
       return;
     }
-    const job = {
-      title: title,
-      desc: desc,
-      company: name,
-      location: location,
-    };
+    console.log("logo");
+    console.log(logo);
+    const formData = new FormData();
+    formData.append("title", title);
+    formData.append("desc", desc);
+    formData.append("company", name);
+    formData.append("location", location);
+    formData.append("logo", logo);
     const headers = {
       Authorization: `${accessToken}`,
+      "Content-Type": "multipart/form-data",
     };
+
     try {
-      const response = await axios.post("/jobs/", job, { headers });
-      console.log(response);
+      const response = await axios.post("/jobs/", formData, { headers });
       if (response.status === 201) {
         navigate(-1);
         message.success(response.data.message);
@@ -56,9 +64,48 @@ export default function AddJob() {
       message.error(error.message);
     }
   };
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setLogo(file);
+  };
+
+  const getCreatedJobs = async () => {
+    try {
+      // Get the access token from your authentication system
+      const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+      const userId = jwtDecode(accessToken).userId;
+      if (!accessToken) {
+        // If the access token is not available, handle the authentication error
+        console.error("User not authenticated.");
+        return;
+      }
+
+      // Set the Authorization header with the access token
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+
+      const response = await axios.get(`/jobs/user/${userId}`, { headers });
+      // Save the URL of the uploaded logo in the state
+      setLogoUrl(response.data.data[0].logo);
+      console.log("logoUrl");
+      console.log(logoUrl);
+      if (response.data.success) {
+        setCreatedJobs(response.data.data);
+      } else {
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getCreatedJobs();
+  }, []);
   return (
     <div>
       <Navbar />
+
       <div
         className="flex flex-col items-center justify-center min-h-screen"
         style={{
@@ -111,11 +158,12 @@ export default function AddJob() {
           ></textarea>
           <div className="flex flex=col" style={{ marginBottom: "20px" }}>
             <div class="text-2xl" style={{ marginRight: "20px" }}>
-              CV
+              Company Logo
             </div>
             <input
               type="file"
               class="file-input file-input-bordered file-input-success w-full max-w-xs"
+              onChange={handleFileChange}
             />
           </div>
 
@@ -163,8 +211,19 @@ export default function AddJob() {
         >
           Add Job
         </button>
+        <div
+          class="text-4xl font-bold"
+          style={{ marginTop: "90px", marginBottom: "-25px" }}
+        >
+          Created Jobs
+        </div>
       </div>
+      <img src="../assets/images/pp.webp" alt="Company Logo" />
 
+      <GetCreatedJobs
+        createdJobsData={createdJobs}
+        getCreatedJobs={getCreatedJobs}
+      />
       <Footer />
     </div>
   );

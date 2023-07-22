@@ -4,12 +4,14 @@ import { React, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsBookmark } from "react-icons/bs";
 import { IoBriefcaseOutline, IoDocumentsOutline } from "react-icons/io5";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import pp from "../assets/images/pp.webp";
 import "../styles/Navbar.css";
 import "../tailwind.css";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const [activeButton, setActiveButton] = useState(location.pathname);
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -133,7 +135,9 @@ const Navbar = () => {
               class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
             >
               <li>
-                <a class="justify-between">Profile</a>
+                <a tabIndex="0" onClick={() => navigate("/editProfile")}>
+                  Profile
+                </a>
               </li>
               <li>
                 <a>Settings</a>
