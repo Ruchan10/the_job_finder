@@ -1,5 +1,6 @@
+import { message } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsApple, BsFacebook, BsGoogle } from "react-icons/bs";
 import "../styles/card.css";
@@ -16,11 +17,10 @@ export function getIcons() {
 }
 
 export function GetUserPill({
-  logo,
-  email,
+  jobId,
+  userId,
   fullName,
   num,
-  reject,
   cv,
   title,
   accept,
@@ -39,8 +39,43 @@ export function GetUserPill({
       console.error(error);
     }
   };
-  getUserDetails(applicants);
-  if(!applicant.email){
+  const rejectUser = async (jobId, userId) => {
+    console.log("IN rejectUser");
+    try {
+      const response = await axios.post(
+        `/jobs/reject/${jobId}/${userId}`,
+        null
+      );
+      if (response.status === 200) {
+        message.success("User Rejected");
+      } else {
+        message.error("Unable to reject user");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const acceptUser = async (jobId, userId) => {
+    try {
+      console.log("IN acceptUser");
+
+      const response = await axios.post(
+        `/jobs/acceptedUser/${jobId}/${userId}`
+      );
+      console.log(response);
+      if (response.status === 200) {
+        message.success(response.data.message);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getUserDetails(applicants);
+  }, []);
+  if (!applicant.email) {
     return;
   }
   return (
@@ -54,13 +89,14 @@ export function GetUserPill({
         <h3 class="card-title">{applicant.email}</h3>
         <h3 class="card-title">{applicant.num}</h3>
         <div class="card-actions justify-end">
-          <button onClick={reject} class="btn btn-sm">
+          <button onClick={() => rejectUser(jobId, userId)} class="btn btn-sm">
             <AiOutlineDelete />
           </button>
-          <button onClick={cv} className="btn btn-sm">
-            CV
-          </button>
-          <button onClick={accept} className="btn btn-sm">
+          <button className="btn btn-sm">CV</button>
+          <button
+            className="btn btn-sm"
+            onClick={() => acceptUser(jobId, userId)}
+          >
             Accept
           </button>
         </div>

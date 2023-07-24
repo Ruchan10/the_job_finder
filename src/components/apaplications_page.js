@@ -120,7 +120,6 @@ const ApplicationPage = () => {
           createdJobsData={createdJobs}
           getCreatedJobs={getCreatedJobs}
         />
-        // <GetUserPill />
       )}
 
       <Footer />

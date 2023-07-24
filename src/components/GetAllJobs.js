@@ -258,6 +258,7 @@ export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
       {createdJobsData.map((job) => (
         <div>
           {getCreatedCard({
+            jobId: job._id,
             logo: job.logo,
             companyName: job.company,
             jobName: job.title,
