@@ -3,6 +3,7 @@ import { Card } from "antd";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import "../styles/card.css";
+import { GetUserPill } from "./common";
 
 export const getCard = ({
   logo,
@@ -55,6 +56,7 @@ export const getCard = ({
     </div>
   );
 };
+
 export const getCreatedCard = ({
   logo,
   companyName,
@@ -63,7 +65,9 @@ export const getCreatedCard = ({
   time,
   deleteJob,
   view,
+  applicants
 }) => {
+    const applicantKeys = Object.keys(applicants)
   return (
     <div className="spacer">
       <Card className="custom-card">
@@ -92,11 +96,27 @@ export const getCreatedCard = ({
               <AiOutlineDelete />
             </button>
           </div>
-          <button onClick={view} className="btn btn-sm">
+          <button
+            onClick={() => window.my_modal_1.showModal()}
+            className="btn btn-sm"
+          >
             View
           </button>
         </div>
       </Card>
+
+      <dialog id="my_modal_1" className="modal">
+        <form method="dialog" className="modal-box">
+          <h3 className="font-bold text-lg">Applied users for the job</h3>
+          <GetUserPill applicants={applicants}/>
+          {applicantKeys.map((applicantId) => (
+            <GetUserPill applicants={applicants[applicantId]} />
+          ))}
+          <div className="modal-action">
+            <button className="btn">Close</button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 };

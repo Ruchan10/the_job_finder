@@ -263,6 +263,7 @@ export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
             jobName: job.title,
             location: job.location,
             time: job.desc,
+            applicants: job.appliedBy,
             deleteJob: () => handleDeleteJob(job._id),
           })}
         </div>

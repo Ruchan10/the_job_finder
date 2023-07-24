@@ -1,4 +1,5 @@
-import { Card } from "antd";
+import axios from "axios";
+import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsApple, BsFacebook, BsGoogle } from "react-icons/bs";
 import "../styles/card.css";
@@ -19,38 +20,51 @@ export function GetUserPill({
   email,
   fullName,
   num,
-  deleteJobApplication,
+  reject,
   cv,
-  jobId,
   title,
+  accept,
+  applicants,
 }) {
-  const handleDeleteClick = async () => {
-    // Call the deleteJobApplication function with the jobId and userId as arguments
-    deleteJobApplication(jobId);
+  const [applicant, setApplicant] = useState([]);
+
+  const getUserDetails = async (applicants) => {
+    try {
+      const response = await axios.get(`/auth/getUser/${applicants}`);
+      if (!applicants) {
+        return;
+      }
+      setApplicant(response.data.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
+  getUserDetails(applicants);
+  if(!applicant.email){
+    return;
+  }
   return (
-    <div className="spacer">
-      <Card className="custom-card">
-        <div className="card-header">
-          <img src={logo} alt="Logo" className="logo" />
-          <div className="text-xl font">{fullName}</div>
-        </div>
-        <div className="card-body">
-          <div className="text-lg font">{title}</div>
-          <div className="text-lg font">{email}</div>
-          <div className="text-lg font">{num}</div>
-        </div>
-        <div className="card-footer">
-          <div style={{ marginRight: "10px" }}>
-            <button class="btn btn-sm" onClick={handleDeleteClick}>
-              <AiOutlineDelete />
-            </button>
-          </div>
+    <div class="spacer card w-96 bg-primary text-primary-content">
+      <div className="card-header">
+        <img src={applicant.logo} alt="Logo" className="logo" />
+        <div className="text-xl font">{applicant.fullName}</div>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">{applicant.title}</h3>
+        <h3 class="card-title">{applicant.email}</h3>
+        <h3 class="card-title">{applicant.num}</h3>
+        <div class="card-actions justify-end">
+          <button onClick={reject} class="btn btn-sm">
+            <AiOutlineDelete />
+          </button>
           <button onClick={cv} className="btn btn-sm">
             CV
           </button>
+          <button onClick={accept} className="btn btn-sm">
+            Accept
+          </button>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }

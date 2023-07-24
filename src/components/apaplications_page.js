@@ -70,6 +70,7 @@ const ApplicationPage = () => {
       setLogoUrl(response.data.data[0].logo);
       if (response.data.success) {
         setCreatedJobs(response.data.data);
+        setApplicants(response.data.data.appliedBy);
       } else {
         console.error(response.data.message);
       }
@@ -86,7 +87,6 @@ const ApplicationPage = () => {
       {createdJobs.map((jobs) => (
         <div className="job-card">
           {<img src={`${jobs.logo}`} alt="Job Logo" />}
-          {console.log(jobs.logo)},
         </div>
       ))}
       <div class="tabs">
@@ -120,6 +120,7 @@ const ApplicationPage = () => {
           createdJobsData={createdJobs}
           getCreatedJobs={getCreatedJobs}
         />
+        // <GetUserPill />
       )}
 
       <Footer />
