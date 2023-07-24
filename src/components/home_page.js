@@ -38,6 +38,7 @@ const HomePage = () => {
   return (
     <div>
       <Navbar />
+
       <div class="spacer"></div>
       <div class="main-body">
         <div className={`flexible-button ${isExpanded ? "expanded" : ""}`}>

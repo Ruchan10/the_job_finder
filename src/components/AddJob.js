@@ -4,7 +4,6 @@ import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
-import { GetCreatedJobs } from "./GetAllJobs";
 import Navbar from "./Navbar";
 
 export default function AddJob() {
@@ -17,6 +16,21 @@ export default function AddJob() {
   const [createdJobs, setCreatedJobs] = useState([]);
   const [logo, setLogo] = useState(null);
   const [logoUrl, setLogoUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
+  const [jobs, setJobs] = useState([]);
+
+  //   useEffect(() => {
+  //     // Make a request to your API to get the image URLs
+  //     axios
+  //       .get("/api/images") // Replace "/api/images" with the actual endpoint in your API
+  //       .then((response) => {
+  //         // Assuming your API returns the image URLs in an array
+  //         setImageUrls(response.data.imageUrls);
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }, []);
 
   const handleJobTime = (option) => {
     setJobTime(option);
@@ -88,8 +102,6 @@ export default function AddJob() {
       const response = await axios.get(`/jobs/user/${userId}`, { headers });
       // Save the URL of the uploaded logo in the state
       setLogoUrl(response.data.data[0].logo);
-      console.log("logoUrl");
-      console.log(logoUrl);
       if (response.data.success) {
         setCreatedJobs(response.data.data);
       } else {
@@ -105,7 +117,6 @@ export default function AddJob() {
   return (
     <div>
       <Navbar />
-
       <div
         className="flex flex-col items-center justify-center min-h-screen"
         style={{
@@ -214,16 +225,8 @@ export default function AddJob() {
         <div
           class="text-4xl font-bold"
           style={{ marginTop: "90px", marginBottom: "-25px" }}
-        >
-          Created Jobs
-        </div>
+        ></div>
       </div>
-      <img src="../assets/images/pp.webp" alt="Company Logo" />
-
-      <GetCreatedJobs
-        createdJobsData={createdJobs}
-        getCreatedJobs={getCreatedJobs}
-      />
       <Footer />
     </div>
   );

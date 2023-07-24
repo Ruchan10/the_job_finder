@@ -4,11 +4,12 @@ import { message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/signup_page.css";
-import getIcons from "./common";
+import { getIcons } from "./common";
 
 const SignupPage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -41,8 +42,9 @@ const SignupPage = () => {
       //   dispatch(ShowLoading());
       const response = await axios.post("/auth/signup", user);
       //   dispatch(ShowLoading())
-      if (response.status === 200) {
+      if (response.status === 201) {
         message.success(response.data.message);
+        navigate("/");
       } else {
         message.error(response.data.message);
       }

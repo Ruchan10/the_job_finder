@@ -1,5 +1,7 @@
 import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
+import { message } from "antd";
+import axios from "axios";
 import { React, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsBookmark } from "react-icons/bs";
@@ -24,6 +26,38 @@ const Navbar = () => {
     return activeButton === path;
   };
 
+  const deleteAccount = async () => {
+    try {
+      const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+      if (!accessToken) {
+        // If the access token is not available, handle the authentication error
+        console.error("User not authenticated.");
+        return;
+      }
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const response = await axios.delete(`/users/profile/`, {
+        headers,
+      });
+      if (response.status === 200) {
+        message.success(response.data.message);
+        navigate("/signup");
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const logOut = async () => {
+    try {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div>
       <div className="navbar bg-neutral">
@@ -140,14 +174,44 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
-                <a>Settings</a>
+                <a tabIndex="1" onClick={() => window.my_modal_5.showModal()}>
+                  Delete Account
+                </a>
               </li>
               <li>
-                <a>Logout</a>
+                <a tabIndex="1" onClick={() => window.my_modal.showModal()}>
+                  Logout
+                </a>
               </li>
             </ul>
           </div>
         </div>
+        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
+          <form method="dialog" className="modal-box">
+            <h3 className="font-bold text-lg">Delete Account !!!</h3>
+            <p className="py-4">Are you sure you want to delete?</p>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">No</button>
+              <button className="btn" onClick={deleteAccount}>
+                Yes
+              </button>
+            </div>
+          </form>
+        </dialog>
+        <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
+          <form method="dialog" className="modal-box">
+            <h3 className="font-bold text-lg">Log Out !!!</h3>
+            <p className="py-4">Are you sure you want to Log Out?</p>
+            <div className="modal-action">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn">No</button>
+              <button className="btn" onClick={logOut}>
+                Yes
+              </button>
+            </div>
+          </form>
+        </dialog>
       </div>
       <div class="spacer"></div>
     </div>

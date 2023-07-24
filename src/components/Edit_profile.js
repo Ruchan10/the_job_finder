@@ -1,6 +1,7 @@
 import { message } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
+import pp from "../assets/images/pp.webp";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
@@ -57,10 +58,13 @@ export default function EditProfile() {
       <div
         className="flex flex-col items-center justify-center min-h-screen"
         style={{
-          padding: "30px",
+          padding: "20px",
         }}
       >
-        <div class="text-4xl font-bold" style={{ marginBottom: "50px" }}>
+        <div
+          class="text-4xl font-bold"
+          style={{ marginBottom: "50px", marginTop: "-10px" }}
+        >
           Edit Profile
         </div>
         <div style={{ padding: "20px" }}>
@@ -71,6 +75,11 @@ export default function EditProfile() {
             This information will be displayed publicly so be careful what you
             share.
           </p>
+          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+            <div class="w-20 rounded-full">
+              <img src={pp} alt="pp" />
+            </div>
+          </label>
           <div className=" flex flex-row" style={{ marginBottom: "20px" }}>
             <div
               className="flex  mt-4 w-full max-w-xs"

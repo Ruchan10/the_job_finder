@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/login_page.css";
 import { useAuth } from "../utils/authContext";
-import getIcons from "./common";
+import { getIcons } from "./common";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -26,23 +26,30 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      message.error("Fields cannot be left empty");
-    } else {
-      const user = {
-        email: email,
-        password: password,
-      };
-      auth.setEmail(user.email);
-
-      const response = await axios.post("/auth/login", user);
-      if (response.status === 200) {
-        message.success(response.data.message);
-        localStorage.setItem("token", response.data.token);
-        navigate("/home");
+    try {
+      if (!email || !password) {
+        message.error("Fields cannot be left empty");
       } else {
-        message.error(response.data.message);
+        const user = {
+          email: email,
+          password: password,
+        };
+        auth.setEmail(user.email);
+
+        const response = await axios.post("/auth/login", user);
+        console.log(response);
+        if (response.data.success) {
+          message.success(response.data.message);
+          localStorage.setItem("token", response.data.token);
+          navigate("/home");
+        } else {
+          console.log("Else");
+
+          message.error(response.data.message);
+        }
       }
+    } catch (error) {
+      message.error("Unable to Login");
     }
   };
   return (

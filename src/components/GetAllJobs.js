@@ -15,8 +15,6 @@ const checkUserBookmark = (job, userId) => {
   return false;
 };
 const checkAppliedJob = (job, userId) => {
-  console.log("INSIDE APPLY JOB");
-  console.log(userId);
   if (!!job.appliedBy && job.appliedBy.includes(userId)) {
     return true;
   }
@@ -255,13 +253,12 @@ export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
   useEffect(() => {
     getCreatedJobs();
   }, [getCreatedJobs]);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
       {createdJobsData.map((job) => (
         <div>
           {getCreatedCard({
-            logo: "path_to_logo_image",
+            logo: job.logo,
             companyName: job.company,
             jobName: job.title,
             location: job.location,
