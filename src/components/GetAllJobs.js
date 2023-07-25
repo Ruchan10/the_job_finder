@@ -158,8 +158,9 @@ export const GetAllJobs = ({ jobsData, getJobs }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
       {jobsData.map((job) => (
         <div>
+          {/* {console.log(job.logo)} */}
           {getCard({
-            logo: "path_to_logo_image",
+            logo: job.logo,
             companyName: job.company,
             jobName: job.title,
             location: job.location,
@@ -193,7 +194,7 @@ export const GetBookmarked = ({ bookmarkData, getBookmarks }) => {
       {bookmarkData.map((job) => (
         <div key={job.id}>
           {getCard({
-            logo: "path_to_logo_image",
+            logo: job.logo,
             companyName: job.company,
             jobName: job.title,
             location: job.location,
@@ -226,7 +227,7 @@ export const GetAppliedJobs = ({ appliedJobsData, getAppliedJobs }) => {
       {appliedJobsData.map((job) => (
         <div>
           {getCard({
-            logo: "path_to_logo_image",
+            logo: job.logo,
             companyName: job.company,
             jobName: job.title,
             location: job.location,

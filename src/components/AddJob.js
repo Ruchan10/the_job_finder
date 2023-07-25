@@ -53,8 +53,6 @@ export default function AddJob() {
       message.error("Please select job time");
       return;
     }
-    console.log("logo");
-    console.log(logo);
     const formData = new FormData();
     formData.append("title", title);
     formData.append("desc", desc);

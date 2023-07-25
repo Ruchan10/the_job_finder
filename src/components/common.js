@@ -5,6 +5,8 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { BsApple, BsFacebook, BsGoogle } from "react-icons/bs";
 import "../styles/card.css";
 import "../styles/signup_page.css";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css"; 
 
 export function getIcons() {
   return (
@@ -35,6 +37,7 @@ export function GetUserPill({
         return;
       }
       setApplicant(response.data.data);
+      console.log(applicant.profile);
     } catch (error) {
       console.error(error);
     }
@@ -72,6 +75,24 @@ export function GetUserPill({
       console.error(error);
     }
   };
+  const downloadCV = async (cvFilePath) => {
+    try {
+      const response = await axios.get(cvFilePath, {
+        responseType: "blob", // Set the response type to 'blob' to get the file data
+      });
+      console.log("inside downloadCV");
+      console.log(response);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "cv.pdf"); // You can set the desired filename here
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
     getUserDetails(applicants);
   }, []);
@@ -81,7 +102,7 @@ export function GetUserPill({
   return (
     <div class="spacer card w-96 bg-primary text-primary-content">
       <div className="card-header">
-        <img src={applicant.logo} alt="Logo" className="logo" />
+        <img src={applicant.profile} alt="Logo" className="logo" />
         <div className="text-xl font">{applicant.fullName}</div>
       </div>
       <div class="card-body">
@@ -92,7 +113,12 @@ export function GetUserPill({
           <button onClick={() => rejectUser(jobId, userId)} class="btn btn-sm">
             <AiOutlineDelete />
           </button>
-          <button className="btn btn-sm">CV</button>
+          <button
+            className="btn btn-sm"
+            onClick={() => downloadCV(applicant.cv)}
+          >
+            CV
+          </button>
           <button
             className="btn btn-sm"
             onClick={() => acceptUser(jobId, userId)}

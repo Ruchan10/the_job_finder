@@ -84,11 +84,6 @@ const ApplicationPage = () => {
   return (
     <div>
       <Navbar />
-      {createdJobs.map((jobs) => (
-        <div className="job-card">
-          {<img src={`${jobs.logo}`} alt="Job Logo" />}
-        </div>
-      ))}
       <div class="tabs">
         <a
           className={`tab tab-lifted ${

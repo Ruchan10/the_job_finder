@@ -1,7 +1,7 @@
 import { message } from "antd";
 import axios from "axios";
-import React, { useState } from "react";
-import pp from "../assets/images/pp.webp";
+import React, { useRef, useState } from "react";
+import "../styles/edit_profile.css";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
@@ -10,6 +10,9 @@ export default function EditProfile() {
   const [email, setEmail] = useState("");
   const [num, setNum] = useState("");
   const [cvFile, setCvFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const [seeProfile, setAvatarImage] = useState(null);
+  const [profile, setProfile] = useState(null);
 
   const handleEditProfile = async () => {
     const accessToken = localStorage.getItem("token");
@@ -28,6 +31,7 @@ export default function EditProfile() {
     formData.append("email", email);
     formData.append("phoneNumber", num);
     formData.append("cv", cvFile);
+    formData.append("profile", profile);
 
     const headers = {
       Authorization: `${accessToken}`,
@@ -38,7 +42,7 @@ export default function EditProfile() {
         headers,
       });
       console.log(response);
-      if (response.status === 201) {
+      if (response.status === 200) {
         message.success(response.data.message);
       } else {
         message.error(response.data.message);
@@ -48,6 +52,22 @@ export default function EditProfile() {
     }
   };
 
+  const handleAvatarClick = () => {
+    // Trigger the click event on the file input
+    fileInputRef.current.click();
+  };
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setProfile(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Set the avatarImage state with the selected file data
+        setAvatarImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setCvFile(file);
@@ -56,7 +76,7 @@ export default function EditProfile() {
     <div>
       <Navbar />
       <div
-        className="flex flex-col items-center justify-center min-h-screen"
+        className="flex flex-col min-h-screen"
         style={{
           padding: "20px",
         }}
@@ -75,11 +95,22 @@ export default function EditProfile() {
             This information will be displayed publicly so be careful what you
             share.
           </p>
-          <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-            <div class="w-20 rounded-full">
-              <img src={pp} alt="pp" />
+
+          <div class="avatar pp">
+            <div class="w-32 rounded-full" style={{ marginLeft: "-230px" }}>
+              <button onClick={handleAvatarClick}>
+                <img src={seeProfile} alt="Profile" />
+              </button>
+              <input
+                type="file"
+                class="file-input file-input-bordered file-input-success w-full max-w-xs"
+                ref={fileInputRef}
+                style={{ display: "none" }}
+                onChange={handleImageChange}
+              />
             </div>
-          </label>
+          </div>
+
           <div className=" flex flex-row" style={{ marginBottom: "20px" }}>
             <div
               className="flex  mt-4 w-full max-w-xs"
@@ -122,6 +153,7 @@ export default function EditProfile() {
               CV
             </div>
             <input
+              name="cv"
               type="file"
               class="file-input file-input-bordered file-input-success w-72"
               onChange={handleFileChange}

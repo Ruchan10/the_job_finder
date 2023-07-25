@@ -1,6 +1,5 @@
 import { ClockCircleOutlined, EnvironmentOutlined } from "@ant-design/icons";
-import { Card, message } from "antd";
-import axios from "axios";
+import { Card } from "antd";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import "../styles/card.css";
@@ -58,7 +57,6 @@ export const getCard = ({
   );
 };
 
-
 const getCv = async () => {};
 const acceptUser = async () => {};
 export const getCreatedCard = ({
@@ -107,27 +105,26 @@ export const getCreatedCard = ({
           >
             View
           </button>
+          <dialog id="my_modal_1" className="modal">
+            <form method="dialog" className="modal-box">
+              <h3 className="font-bold text-lg">Applied users for the job</h3>
+              {/* <GetUserPill applicants={applicants} /> */}
+              {applicantKeys.map((applicantId) => (
+                <GetUserPill
+                  applicants={applicants[applicantId]}
+                  cv={getCv}
+                  accept={acceptUser}
+                  jobId={jobId}
+                  userId={applicants[applicantId]}
+                />
+              ))}
+              <div className="modal-action">
+                <button className="btn">Close</button>
+              </div>
+            </form>
+          </dialog>
         </div>
       </Card>
-
-      <dialog id="my_modal_1" className="modal">
-        <form method="dialog" className="modal-box">
-          <h3 className="font-bold text-lg">Applied users for the job</h3>
-          {/* <GetUserPill applicants={applicants} /> */}
-          {applicantKeys.map((applicantId) => (
-            <GetUserPill
-              applicants={applicants[applicantId]}
-              cv={getCv}
-              accept={acceptUser}
-              jobId={jobId}
-              userId={applicants[applicantId]}
-            />
-          ))}
-          <div className="modal-action">
-            <button className="btn">Close</button>
-          </div>
-        </form>
-      </dialog>
     </div>
   );
 };

@@ -2,12 +2,12 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import { message } from "antd";
 import axios from "axios";
-import { React, useState } from "react";
+import jwtDecode from "jwt-decode";
+import { React, useEffect, useState } from "react";
 import { AiOutlineHome } from "react-icons/ai";
 import { BsBookmark } from "react-icons/bs";
 import { IoBriefcaseOutline, IoDocumentsOutline } from "react-icons/io5";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import pp from "../assets/images/pp.webp";
 import "../styles/Navbar.css";
 import "../tailwind.css";
 
@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const location = useLocation();
   const [activeButton, setActiveButton] = useState(location.pathname);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [profileImage, setProfileImage] = useState("");
 
   const handleButtonClick = (path) => {
     setActiveButton(path);
@@ -25,7 +25,35 @@ const Navbar = () => {
   const isButtonActive = (path) => {
     return activeButton === path;
   };
+  const getUserProfile = async () => {
+    console.log("INSIDE GETuserprofile");
+    try {
+      const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+      const userId = jwtDecode(accessToken).userId;
 
+      if (!accessToken) {
+        // If the access token is not available, handle the authentication error
+        console.error("User not authenticated.");
+        return;
+      }
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const response = await axios.get(`/users/profile/${userId}`, {
+        headers,
+      });
+      console.log("response.data.data.profile");
+
+      if (response.status === 200) {
+        setProfileImage(response.data.data.profile);
+        console.log(response.data);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const deleteAccount = async () => {
     try {
       const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
@@ -52,12 +80,15 @@ const Navbar = () => {
   };
   const logOut = async () => {
     try {
-        localStorage.removeItem("token");
-        window.location.href = "/";
+      localStorage.removeItem("token");
+      window.location.href = "/";
     } catch (error) {
       console.error(error);
     }
   };
+  useEffect(() => {
+    getUserProfile();
+  }, []);
   return (
     <div>
       <div className="navbar bg-neutral">
@@ -161,7 +192,7 @@ const Navbar = () => {
           <div class="dropdown dropdown-end">
             <label tabindex="0" class="btn btn-ghost btn-circle avatar">
               <div class="w-10 rounded-full">
-                <img src={pp} alt="pp" />
+                <img src={profileImage} alt="pp" />
               </div>
             </label>
             <ul
