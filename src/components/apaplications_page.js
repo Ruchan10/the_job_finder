@@ -23,9 +23,8 @@ const ApplicationPage = () => {
   const getAppliedJobs = async () => {
     try {
       // Get the access token from your authentication system
-      const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+      const accessToken = localStorage.getItem("token");
       if (!accessToken) {
-        // If the access token is not available, handle the authentication error
         console.error("User not authenticated.");
         return;
       }

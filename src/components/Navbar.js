@@ -88,6 +88,34 @@ const Navbar = () => {
       console.error(error);
     }
   };
+
+  const changePassword = async () => {
+    try {
+      const accessToken = localStorage.getItem("token");
+      if (!accessToken) {
+        message.error("User not authenticated.");
+        return;
+      }
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const pws = {
+        currentPassword: password,
+        newPassword: newPassword,
+        reenterNewPassword: confirmPassword,
+      };
+      const response = await axios.post("/auth/changePassword", pws, {
+        headers,
+      });
+      if (response.data.success) {
+        message.success(response.data.message);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
   useEffect(() => {
     getUserProfile();
   }, []);
@@ -254,7 +282,9 @@ const Navbar = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             ></input>
             <div className="modal-action">
-              <button className="btn">Change</button>
+              <button className="btn" onClick={changePassword}>
+                Change
+              </button>
             </div>
           </form>
         </dialog>
