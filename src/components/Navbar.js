@@ -17,7 +17,9 @@ const Navbar = () => {
   const location = useLocation();
   const [activeButton, setActiveButton] = useState(location.pathname);
   const [profileImage, setProfileImage] = useState("");
-
+  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const handleButtonClick = (path) => {
     setActiveButton(path);
   };
@@ -205,6 +207,11 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
+                <a tabIndex="0" onClick={() => window.my_modal_3.showModal()}>
+                  Change Password
+                </a>
+              </li>
+              <li>
                 <a tabIndex="1" onClick={() => window.my_modal_5.showModal()}>
                   Delete Account
                 </a>
@@ -217,6 +224,40 @@ const Navbar = () => {
             </ul>
           </div>
         </div>
+        <dialog id="my_modal_3" className="modal">
+          <form method="dialog" className="modal-box">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+            <h3 className="font-bold text-lg">Change Password</h3>
+            <input
+              style={{ marginBottom: "10px" }}
+              type="password"
+              placeholder="Current Password"
+              class="input input-primary input-bordered w-full password-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></input>
+            <input
+              style={{ marginBottom: "10px" }}
+              type="password"
+              placeholder="New Password"
+              class="input input-primary input-bordered w-full password-input"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            ></input>
+            <input
+              type="password"
+              placeholder="Re-enter New Password"
+              class="input input-primary input-bordered w-full password-input"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            ></input>
+            <div className="modal-action">
+              <button className="btn">Change</button>
+            </div>
+          </form>
+        </dialog>
         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
           <form method="dialog" className="modal-box">
             <h3 className="font-bold text-lg">Delete Account !!!</h3>
