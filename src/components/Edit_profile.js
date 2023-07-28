@@ -22,13 +22,13 @@ export default function EditProfile() {
       return;
     }
 
-    if (!fullName || !email || !num) {
+    if (!fullName || !num) {
       message.error("Fields cannot be left empty");
       return;
     }
     const formData = new FormData();
     formData.append("fullName", fullName);
-    formData.append("email", email);
+    // formData.append("email", email);
     formData.append("phoneNumber", num);
     formData.append("cv", cvFile);
     formData.append("profile", profile);
@@ -124,16 +124,6 @@ export default function EditProfile() {
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
-          </div>
-
-          <div className="mt-4 w-full max-w-xs">
-            <input
-              type="text"
-              placeholder="Change Email"
-              className="input input-bordered input-accent w-full"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
           </div>
 
           <div

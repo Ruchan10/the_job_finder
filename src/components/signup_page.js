@@ -38,19 +38,22 @@ const SignupPage = () => {
       email: email,
       password: password,
     };
+    console.log(user);
     try {
       //   dispatch(ShowLoading());
       const response = await axios.post("/auth/signup", user);
       //   dispatch(ShowLoading())
+      console.log(response);
       if (response.status === 201) {
         message.success(response.data.message);
         navigate("/");
       } else {
+        console.log("In message.errror");
         message.error(response.data.message);
       }
     } catch (error) {
       //   dispatch(HideLoading());
-      message.error(error.message);
+      console.log(error.message);
     }
   };
   return (

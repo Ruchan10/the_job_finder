@@ -19,7 +19,9 @@ const Navbar = () => {
   const [profileImage, setProfileImage] = useState("");
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmEmail, setConfirmEmail] = useState("");
   const handleButtonClick = (path) => {
     setActiveButton(path);
   };
@@ -116,6 +118,7 @@ const Navbar = () => {
       console.error(e);
     }
   };
+  const changeEmail = async () => {};
   useEffect(() => {
     getUserProfile();
   }, []);
@@ -240,6 +243,11 @@ const Navbar = () => {
                 </a>
               </li>
               <li>
+                <a tabIndex="0" onClick={() => window.my_modal_1.showModal()}>
+                  Change Email
+                </a>
+              </li>
+              <li>
                 <a tabIndex="1" onClick={() => window.my_modal_5.showModal()}>
                   Delete Account
                 </a>
@@ -257,7 +265,12 @@ const Navbar = () => {
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
-            <h3 className="font-bold text-lg">Change Password</h3>
+            <h3
+              className="font-bold text-lg"
+              style={{ "margin-bottom": "20px" }}
+            >
+              Change Password
+            </h3>
             <input
               style={{ marginBottom: "10px" }}
               type="password"
@@ -283,6 +296,43 @@ const Navbar = () => {
             ></input>
             <div className="modal-action">
               <button className="btn" onClick={changePassword}>
+                Change
+              </button>
+            </div>
+          </form>
+        </dialog>
+        <dialog id="my_modal_1" className="modal">
+          <form method="dialog" className="modal-box">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+            <h3
+              className="font-bold text-lg"
+              style={{ "margin-bottom": "20px" }}
+            >
+              Change Email
+            </h3>
+            <div class="text-2xl font" style={{ "margin-bottom": "10px" }}>
+              Current Email:-
+            </div>
+
+            <input
+              style={{ marginBottom: "10px" }}
+              type="text"
+              placeholder="New Email"
+              class="input input-primary input-bordered w-full"
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+            ></input>
+            <input
+              type="text"
+              placeholder="Re-enter New Email"
+              class="input input-primary input-bordered w-full"
+              value={confirmEmail}
+              onChange={(e) => setConfirmEmail(e.target.value)}
+            ></input>
+            <div className="modal-action">
+              <button className="btn" onClick={changeEmail}>
                 Change
               </button>
             </div>
