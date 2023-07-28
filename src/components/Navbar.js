@@ -20,6 +20,7 @@ const Navbar = () => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [newEmail, setNewEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const handleButtonClick = (path) => {
@@ -46,10 +47,12 @@ const Navbar = () => {
       const response = await axios.get(`/users/profile/${userId}`, {
         headers,
       });
-      console.log("response.data.data.profile");
+      console.log("response.data.data.email");
+      console.log(response.data.data.email);
 
       if (response.status === 200) {
         setProfileImage(response.data.data.profile);
+        setEmail(response.data.data.email);
         console.log(response.data);
       } else {
         message.error(response.data.message);
@@ -118,7 +121,32 @@ const Navbar = () => {
       console.error(e);
     }
   };
-  const changeEmail = async () => {};
+  const changeEmail = async () => {
+    try {
+      const accessToken = localStorage.getItem("token");
+      if (!accessToken) {
+        message.error("User not authenticated.");
+        return;
+      }
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const emails = {
+        email: newEmail,
+        confirmEmail: confirmEmail,
+      };
+      const response = await axios.post("/users/changeEmail", emails, {
+        headers,
+      });
+      if (response.data.success) {
+        message.success(response.data.message);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
   useEffect(() => {
     getUserProfile();
   }, []);
@@ -313,7 +341,7 @@ const Navbar = () => {
               Change Email
             </h3>
             <div class="text-2xl font" style={{ "margin-bottom": "10px" }}>
-              Current Email:-
+              Current Email:- {email}
             </div>
 
             <input
@@ -331,6 +359,12 @@ const Navbar = () => {
               value={confirmEmail}
               onChange={(e) => setConfirmEmail(e.target.value)}
             ></input>
+            <p
+              className="mt-1 text-sm leading-6 text-gray-600"
+              style={{ marginBottom: "20px" }}
+            >
+              *This email will be used as your login email.
+            </p>
             <div className="modal-action">
               <button className="btn" onClick={changeEmail}>
                 Change
