@@ -18,6 +18,7 @@ const HomePage = () => {
   };
 
   const fetchJobs = async () => {
+    console.log("fetchJobs");
     try {
       const response = await axios.get("/jobs");
 
@@ -34,10 +35,12 @@ const HomePage = () => {
   useEffect(() => {
     fetchJobs();
   }, []);
-
+  const handleSearch = (searchResults) => {
+    setJobs(searchResults);
+  };
   return (
     <div>
-      <Navbar />
+      <Navbar onSearch={handleSearch} />
 
       <div class="spacer"></div>
       <div class="main-body">

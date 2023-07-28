@@ -11,7 +11,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/Navbar.css";
 import "../tailwind.css";
 
-const Navbar = () => {
+const Navbar = ({ onSearch }) => {
   const navigate = useNavigate();
 
   const location = useLocation();
@@ -23,12 +23,31 @@ const Navbar = () => {
   const [email, setEmail] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [jobs, setJobs] = useState([]);
+
   const handleButtonClick = (path) => {
     setActiveButton(path);
   };
 
   const isButtonActive = (path) => {
     return activeButton === path;
+  };
+  const getSearched = async () => {
+    try {
+      const response = await axios.post(`/search/mainSearch/${searchQuery}`);
+      console.log("response");
+      console.log(response);
+      if (response.status === 200) {
+        console.log(response.data);
+        setJobs(response.data.data);
+        onSearch(response.data.data);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
   };
   const getUserProfile = async () => {
     console.log("INSIDE GETuserprofile");
@@ -212,9 +231,26 @@ const Navbar = () => {
               type="text"
               placeholder="Search"
               class="input input-bordered w-24 md:w-auto"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-
+          <button class="btn btn-ghost" onClick={getSearched}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
+            </svg>
+          </button>
           <div class="dropdown dropdown-end">
             <button class="btn btn-ghost btn-circle">
               <div class="indicator">
