@@ -57,6 +57,8 @@ export default function AddJob() {
     formData.append("title", title);
     formData.append("desc", desc);
     formData.append("company", name);
+    formData.append("salary", salary);
+    formData.append("jobTime", jobTime);
     formData.append("location", location);
     formData.append("logo", logo);
     const headers = {

@@ -24,6 +24,8 @@ const Navbar = ({ onSearch }) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmEmail, setConfirmEmail] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  const [filterQuery, setFilterQuery] = useState("");
   const [jobs, setJobs] = useState([]);
 
   const handleButtonClick = (path) => {
@@ -49,6 +51,7 @@ const Navbar = ({ onSearch }) => {
       console.error(e);
     }
   };
+
   const getUserProfile = async () => {
     console.log("INSIDE GETuserprofile");
     try {
@@ -173,7 +176,7 @@ const Navbar = ({ onSearch }) => {
     <div>
       <div className="navbar bg-neutral">
         <div className="navbar-start">
-          <div className="tabs-boxed">
+          <div className="tabs-boxed bg-neutral">
             <Link to="/home">
               <div
                 className={`tab ${isButtonActive("/home") ? "tab-active" : ""}`}
