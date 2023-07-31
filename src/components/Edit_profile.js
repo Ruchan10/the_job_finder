@@ -1,6 +1,7 @@
 import { message } from "antd";
 import axios from "axios";
-import React, { useRef, useState } from "react";
+import jwtDecode from "jwt-decode";
+import React, { useEffect, useRef, useState } from "react";
 import "../styles/edit_profile.css";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
@@ -14,6 +15,36 @@ export default function EditProfile() {
   const [seeProfile, setAvatarImage] = useState(null);
   const [profile, setProfile] = useState(null);
 
+  const getUserProfile = async () => {
+    console.log("INSIDE GETuserprofile");
+    try {
+      const accessToken = localStorage.getItem("token"); // You might need to adjust this based on how you store the access token
+      const userId = jwtDecode(accessToken).userId;
+
+      if (!accessToken) {
+        // If the access token is not available, handle the authentication error
+        console.error("User not authenticated.");
+        return;
+      }
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const response = await axios.get(`/users/profile/${userId}`, {
+        headers,
+      });
+      console.log(response.data.data.cv);
+      if (response.status === 200) {
+        setAvatarImage(response.data.data.profile);
+        setFullName(response.data.data.fullName);
+        setNum(response.data.data.phoneNumber);
+        setCvFile(response.data.data.cv);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const handleEditProfile = async () => {
     const accessToken = localStorage.getItem("token");
     if (!accessToken) {
@@ -72,6 +103,9 @@ export default function EditProfile() {
     const file = e.target.files[0];
     setCvFile(file);
   };
+  useEffect(() => {
+    getUserProfile();
+  }, []);
   return (
     <div>
       <Navbar />
@@ -96,22 +130,33 @@ export default function EditProfile() {
             share.
           </p>
 
-          <div class="avatar pp">
-            <div class="w-32 rounded-full" style={{ marginLeft: "-230px" }}>
+          {/* <div class="avatar pp">
+            <div class="w-32 rounded-full">
               <button onClick={handleAvatarClick}>
                 <img src={seeProfile} alt="Profile" />
               </button>
-              <input
-                type="file"
-                class="file-input file-input-bordered file-input-success w-full max-w-xs"
-                ref={fileInputRef}
-                style={{ display: "none" }}
-                onChange={handleImageChange}
-              />
             </div>
-          </div>
-
-          <div className=" flex flex-row" style={{ marginBottom: "20px" }}>
+          </div> */}
+          <input
+            type="file"
+            class="file-input file-input-bordered file-input-success w-full max-w-xs"
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+          <label
+            tabindex="0"
+            class="btn btn-ghost btn-circle avatar pp"
+            onClick={handleAvatarClick}
+          >
+            <div class="rounded-full w-96">
+              <img src={seeProfile} alt="pp" />
+            </div>
+          </label>
+          <div
+            className=" flex flex-row"
+            style={{ marginBottom: "20px", marginTop: "-20px" }}
+          >
             <div
               className="flex  mt-4 w-full max-w-xs"
               style={{ marginRight: "60px" }}

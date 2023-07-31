@@ -4,6 +4,8 @@
     justify-content: center;
     margin-bottom: 20px;
     margin-left: 100px;
+    height:100px;
+    width:100px
   }
   /* edit_profile.css or inline styles in the component */
 .min-h-screen {
