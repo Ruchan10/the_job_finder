@@ -3,10 +3,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsApple, BsFacebook, BsGoogle } from "react-icons/bs";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "../styles/card.css";
 import "../styles/signup_page.css";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css"; 
 
 export function getIcons() {
   return (
@@ -100,15 +99,25 @@ export function GetUserPill({
     return;
   }
   return (
-    <div class="spacer card w-96 bg-primary text-primary-content">
+    <div
+      class="spacer card w-96 bg-primary text-primary-content"
+      style={{ padding: 10 }}
+    >
       <div className="card-header">
         <img src={applicant.profile} alt="Logo" className="logo" />
-        <div className="text-xl font">{applicant.fullName}</div>
+        <h1 className="card-title">{title}</h1>
+        <div></div>
       </div>
       <div class="card-body">
-        <h3 class="card-title">{applicant.title}</h3>
-        <h3 class="card-title">{applicant.email}</h3>
-        <h3 class="card-title">{applicant.num}</h3>
+        <h3 class="card-title" className="text-xl font">
+          {applicant.fullName}
+        </h3>
+        <h3 class="card-title" className="text-xl font">
+          {applicant.email}
+        </h3>
+        <h3 class="card-title" className="text-xl font">
+          {applicant.phoneNumber}
+        </h3>
         <div class="card-actions justify-end">
           <button onClick={() => rejectUser(jobId, userId)} class="btn btn-sm">
             <AiOutlineDelete />

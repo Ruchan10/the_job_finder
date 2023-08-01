@@ -6,7 +6,7 @@ import jwtDecode from "jwt-decode";
 import React, { useEffect } from "react";
 import "../styles/home_page.css";
 import "../tailwind.css";
-import { getCard, getCreatedCard } from "./card";
+import { getCard, GetCreatedCard } from "./card";
 
 const checkUserBookmark = (job, userId) => {
   if (!!job.bookmarkedBy && job.bookmarkedBy.includes(userId)) {
@@ -258,7 +258,7 @@ export const GetCreatedJobs = ({ createdJobsData, getCreatedJobs }) => {
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-8 card-container">
       {createdJobsData.map((job) => (
         <div>
-          {getCreatedCard({
+          {GetCreatedCard({
             jobId: job._id,
             logo: job.logo,
             companyName: job.company,

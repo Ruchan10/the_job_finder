@@ -1,9 +1,11 @@
 import { ClockCircleOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { Card } from "antd";
+import React from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import "../styles/card.css";
 import { GetUserPill } from "./common";
+import { initializeModal } from "./modal";
 
 export const getCard = ({
   logo,
@@ -59,7 +61,7 @@ export const getCard = ({
 
 const getCv = async () => {};
 const acceptUser = async () => {};
-export const getCreatedCard = ({
+export const GetCreatedCard = ({
   logo,
   companyName,
   jobName,
@@ -71,6 +73,8 @@ export const getCreatedCard = ({
   jobId,
 }) => {
   const applicantKeys = Object.keys(applicants);
+  initializeModal();
+
   return (
     <div className="spacer">
       <Card className="custom-card">
@@ -100,12 +104,12 @@ export const getCreatedCard = ({
             </button>
           </div>
           <button
-            onClick={() => window.my_modal_1.showModal()}
+            onClick={() => window.display_users.showModal()}
             className="btn btn-sm"
           >
             View
           </button>
-          <dialog id="my_modal_1" className="modal">
+          <dialog id="display_users" className="modal">
             <form method="dialog" className="modal-box">
               <h3 className="font-bold text-lg">Applied users for the job</h3>
               {/* <GetUserPill applicants={applicants} /> */}
@@ -116,6 +120,7 @@ export const getCreatedCard = ({
                   accept={acceptUser}
                   jobId={jobId}
                   userId={applicants[applicantId]}
+                  title={jobName}
                 />
               ))}
               <div className="modal-action">
